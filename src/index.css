@@ -1,0 +1,169 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    color-scheme: dark;
+  }
+
+  html,
+  body,
+  #root {
+    height: 100%;
+  }
+
+  body {
+    @apply bg-ink-800 font-sans text-slate-200 antialiased;
+    margin: 0;
+    overflow-x: hidden; /* page scrolls vertically; camera follows scroll */
+  }
+
+  ::selection {
+    @apply bg-amber-300/30 text-white;
+  }
+
+  /* Slim warm scrollbar on the scroll container */
+  ::-webkit-scrollbar {
+    width: 8px;
+  }
+  ::-webkit-scrollbar-track {
+    background: transparent;
+  }
+  ::-webkit-scrollbar-thumb {
+    @apply rounded-full bg-amber-200/30;
+  }
+}
+
+@layer components {
+  /* Fixed full-screen 3D canvas behind the scrolling content */
+  .canvas-fixed {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+  }
+  .content {
+    position: relative;
+    z-index: 1;
+  }
+
+  .overlay-root {
+    width: 100%;
+  }
+
+  /* Lets the alignment flex item be the inner sized box */
+  .panel {
+    display: contents;
+  }
+
+  .card {
+    @apply rounded-2xl border border-white/10 bg-black/45 p-5 backdrop-blur-md sm:p-6 lg:p-7;
+    box-shadow: 0 10px 40px rgba(0, 0, 0, 0.4);
+  }
+
+  /* Guarantees text legibility even over the brightest lantern glow */
+  .text-readable {
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.7), 0 0 18px rgba(0, 0, 0, 0.45);
+  }
+
+  /* Soft dark halo behind the hero text (no visible box) */
+  .hero-scrim {
+    position: absolute;
+    inset: -18% -12%;
+    z-index: 0;
+    pointer-events: none;
+    background: radial-gradient(
+      ellipse at center,
+      rgba(8, 6, 14, 0.6) 0%,
+      rgba(8, 6, 14, 0.28) 45%,
+      transparent 72%
+    );
+    filter: blur(10px);
+  }
+
+  .chip-warm {
+    @apply inline-flex items-center gap-1 rounded-full border border-amber-200/25
+           bg-black/30 px-3 py-1 text-sm text-white/85 backdrop-blur-sm
+           transition-colors duration-200 hover:border-amber-200/60 hover:text-amber-100;
+  }
+
+  .link-icon {
+    @apply transition-all duration-200 hover:-translate-y-0.5 hover:text-amber-200;
+  }
+
+  .btn-glow {
+    @apply inline-flex items-center gap-2 rounded-full px-6 py-3 font-medium transition-transform duration-200 hover:scale-105;
+    color: #20162e;
+    background-image: linear-gradient(135deg, #ffd27a 0%, #f6a06b 45%, #f6b6d0 100%);
+    box-shadow: 0 0 22px rgba(255, 190, 120, 0.45);
+  }
+
+  .btn-ghost {
+    @apply inline-flex items-center gap-2 rounded-full border border-white/20 px-6 py-3
+           font-medium text-white transition-colors duration-200
+           hover:border-amber-200/60 hover:text-amber-100;
+  }
+}
+
+/* ── Intro / loader ─────────────────────────────────────── */
+.village-loader {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 1.1rem;
+  background: radial-gradient(ellipse at 50% 60%, #3a2a4a 0%, #16121f 70%, #0a0a0f 100%);
+  transition: opacity 0.9s ease;
+}
+.village-loader--done {
+  opacity: 0;
+  pointer-events: none;
+}
+.village-loader__lantern {
+  font-family: '"Zen Kaku Gothic New"', 'Noto Sans JP', sans-serif;
+  font-size: 3.5rem;
+  font-weight: 700;
+  color: #ffc77a;
+  text-shadow: 0 0 24px rgba(255, 180, 90, 0.8), 0 0 60px rgba(255, 150, 70, 0.5);
+  animation: lantern-bob 2.4s ease-in-out infinite;
+}
+@keyframes lantern-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-10px); }
+}
+.village-loader__title {
+  font-family: 'Space Grotesk', system-ui, sans-serif;
+  font-size: 1.1rem;
+  letter-spacing: 0.25em;
+  text-transform: uppercase;
+  color: rgba(255, 255, 255, 0.85);
+}
+.village-loader__bar {
+  width: 200px;
+  height: 3px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.12);
+  overflow: hidden;
+}
+.village-loader__bar span {
+  display: block;
+  height: 100%;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #ffd27a, #f6b6d0);
+  transition: width 0.3s ease;
+}
+.village-loader__hint {
+  font-family: '"Zen Kaku Gothic New"', 'Noto Sans JP', sans-serif;
+  font-size: 0.8rem;
+  color: rgba(255, 220, 180, 0.6);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .village-loader__lantern,
+  .animate-bounce {
+    animation: none !important;
+  }
+}
