@@ -3,6 +3,8 @@
 > **This was done just for fun to see Three.js in use.** A weekend experiment to
 > explore what's possible with 3D on the web — and it turned into something cool.
 
+![Demo](public/demo.gif)
+
 An immersive 3D portfolio: a scroll-driven journey through a **peaceful anime
 village at dusk**, inspired by Studio Ghibli. You glide past a glowing torii
 gate, paper lanterns, cherry blossoms drifting petals, a reflective pond, and
